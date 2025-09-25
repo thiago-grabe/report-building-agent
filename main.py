@@ -1,3 +1,16 @@
+"""CLI entrypoint for the DocDacity Document Assistant.
+
+This module bootstraps environment variables, initializes the
+`DocumentAssistant`, and provides an interactive REPL with helpful
+commands (e.g., `/help`, `/history`, `/docs`, `/logs`).
+
+Example:
+    export OPENAI_API_KEY=your_key_here
+    python main.py
+    # Then interact at the prompt:
+    # Enter Message: What's the total amount in invoice INV-001?
+"""
+
 import os
 import sys
 from datetime import datetime

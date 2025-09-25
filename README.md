@@ -66,7 +66,6 @@ doc_assistant_project/
 └── README.md             # This file
 ```
 
-
 ## Agent Architecture
 
 The LangGraph agent follows this workflow:
@@ -102,7 +101,9 @@ Create a Pydantic model for intent classification with these fields:
 ### 2. Agent State Implementation (agent.py)
 
 #### Task 2.1: AgentState Properties
+
 The `AgentState` class is already defined, but you need to understand its structure:
+
 - `messages`: Conversation messages with LangGraph message annotation
 - `user_input`: Current user input
 - `intent`: Classified user intent
@@ -119,14 +120,15 @@ The `AgentState` class is already defined, but you need to understand its struct
 Implement the `classify_intent` function that:
 
 1. Formats the conversation history for context
-1. Uses the LLM with structured output to classify the user's intent
-1. Sets the `next_step` based on the classified intent:
+2. Uses the LLM with structured output to classify the user's intent
+3. Sets the `next_step` based on the classified intent:
    - "qa" --> "qa_agent"
    - "summarization" --> "summarization_agent"
    - "calculation" --> "calculation_agent"
    - default --> "qa_agent"
 
-**Key concepts**: 
+**Key concepts**:
+
 - Use `llm.with_structured_output(UserIntent)` for structured responses
 - Include conversation history for better context understanding
 - The function should return the updated state
@@ -136,19 +138,19 @@ Implement the `classify_intent` function that:
 Complete the `calculation_agent` function by implementing the final response generation:
 
 1. Use `llm.with_structured_output(CalculationResponse)` to get a structured response
-1. Create a prompt asking for a clear explanation of the calculation
-1. Ensure the response includes the expression and step-by-step explanation
-1. Update the state with the response and return it
+2. Create a prompt asking for a clear explanation of the calculation
+3. Ensure the response includes the expression and step-by-step explanation
+4. Update the state with the response and return it
 
 #### Task 2.4: Memory Update Function
 
 Implement the `update_memory` function that:
 
 1. Creates a `ConversationTurn` object from the current interaction
-1. Adds the turn to the conversation history
-1. Updates the message history with user input and agent response
-1. Tracks active documents from the response
-1. Sets `next_step` to "end"
+2. Adds the turn to the conversation history
+3. Updates the message history with user input and agent response
+4. Tracks active documents from the response
+5. Sets `next_step` to "end"
 
 **Purpose**: This function maintains conversation context and tracks document references across turns.
 
@@ -157,12 +159,12 @@ Implement the `update_memory` function that:
 Implement the `create_workflow` function that:
 
 1. Creates a `StateGraph` with the `AgentState`
-1. Adds all agent nodes (classify_intent, qa_agent, summarization_agent, calculation_agent, update_memory)
-1. Sets "classify_intent" as the entry point
-1. Adds conditional edges from classify_intent to the appropriate agents
-1. Adds edges from each agent to update_memory
-1. Adds edge from update_memory to END
-1. Returns the compiled workflow
+2. Adds all agent nodes (classify_intent, qa_agent, summarization_agent, calculation_agent, update_memory)
+3. Sets "classify_intent" as the entry point
+4. Adds conditional edges from classify_intent to the appropriate agents
+5. Adds edges from each agent to update_memory
+6. Adds edge from update_memory to END
+7. Returns the compiled workflow
 
 **Graph Structure**:
 
@@ -188,9 +190,9 @@ Implement the `get_intent_classification_prompt` function that returns a `Prompt
 Implement the `get_chat_prompt_template` function that:
 
 1. Takes an `intent_type` parameter
-1. Selects the appropriate system prompt based on intent type
-1. Returns a `ChatPromptTemplate` with system message, chat history placeholder, and human message
-1. Uses the existing system prompts (QA_SYSTEM_PROMPT, SUMMARIZATION_SYSTEM_PROMPT, CALCULATION_SYSTEM_PROMPT)
+2. Selects the appropriate system prompt based on intent type
+3. Returns a `ChatPromptTemplate` with system message, chat history placeholder, and human message
+4. Uses the existing system prompts (QA_SYSTEM_PROMPT, SUMMARIZATION_SYSTEM_PROMPT, CALCULATION_SYSTEM_PROMPT)
 
 **Purpose**: This provides context-aware prompts for different types of tasks.
 
@@ -201,18 +203,19 @@ Implement the `get_chat_prompt_template` function that:
 Implement the `create_calculator_tool` function that:
 
 1. Uses the `@tool` decorator to create a LangChain tool
-1. Takes a mathematical expression as input
-1. Validates the expression for safety (only allow basic math operations)
-1. Evaluates the expression using Python's `eval()` function
-1. Logs the tool usage with the ToolLogger
-1. Returns a formatted result string
-1. Handles errors gracefully
+2. Takes a mathematical expression as input
+3. Validates the expression for safety (only allow basic math operations)
+4. Evaluates the expression using Python's `eval()` function
+5. Logs the tool usage with the ToolLogger
+6. Returns a formatted result string
+7. Handles errors gracefully
 
 ## Key Concepts for Success
 
 ### 1. LangChain Tool Pattern
 
 Tools are functions decorated with `@tool` that can be called by LLMs. They must:
+
 - Have clear docstrings describing their purpose and parameters
 - Handle errors gracefully
 - Return string results
@@ -221,6 +224,7 @@ Tools are functions decorated with `@tool` that can be called by LLMs. They must
 ### 2. LangGraph State Management
 
 The state flows through nodes and gets updated at each step. Key principles:
+
 - Always return the updated state from node functions
 - Use the state to pass information between nodes
 - The state persists conversation context and intermediate results
@@ -232,6 +236,7 @@ Use `llm.with_structured_output(YourSchema)` to get reliable, typed responses fr
 ### 4. Conversation Memory
 
 The system maintains conversation context by:
+
 - Storing conversation turns with metadata
 - Tracking active documents
 - Summarizing long conversations
@@ -253,6 +258,7 @@ The system maintains conversation context by:
 ## Expected Behavior
 
 After implementation, your assistant should be able to:
+
 - Classify user intents correctly
 - Search and retrieve relevant documents
 - Answer questions with proper source citations
@@ -309,24 +315,28 @@ Good luck with your implementation! Remember to test thoroughly and refer to the
 ## Running Locally
 
 1. Create and activate a virtual environment, then install dependencies:
+
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-2. Set your OpenAI API key:
+1. Set your OpenAI API key:
+
 ```bash
 cp .env.example .env
 echo "OPENAI_API_KEY=YOUR_KEY" >> .env
 ```
 
-3. Run the assistant:
+1. Run the assistant:
+
 ```bash
 python main.py
 ```
 
-4. Try these:
+1. Try these:
+
 ```text
 What's the total amount in invoice INV-001?
 Summarize all contracts

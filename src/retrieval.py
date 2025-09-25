@@ -1,3 +1,17 @@
+"""In-memory retrieval utilities and sample document corpus.
+
+Provides a small simulated dataset and lightweight retrieval methods for
+keyword search, type filtering, and amount-based queries (including natural
+language parsing for ranges and comparisons).
+
+Example:
+    from src.retrieval import SimulatedRetriever
+    r = SimulatedRetriever()
+    chunks = r.retrieve_by_keyword("invoice over $50,000")
+    for c in chunks:
+        print(c.doc_id, c.metadata.get("total"))
+"""
+
 import json
 from typing import List, Dict, Any, Optional, Tuple
 from dataclasses import dataclass

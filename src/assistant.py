@@ -1,3 +1,17 @@
+"""High-level assistant orchestration, session management, and workflow execution.
+
+`DocumentAssistant` wires together the LLM, tools, and LangGraph workflow,
+and persists sessions and tool logs to disk.
+
+Example:
+    from src.assistant import DocumentAssistant
+
+    assistant = DocumentAssistant(openai_api_key="your_key", model_name="gpt-4o")
+    session_id = assistant.start_session("demo_user")
+    result = assistant.process_message("Summarize all contracts")
+    print(result["response"])  # Structured response dict
+"""
+
 import os
 import json
 from typing import Dict, Any, List, Optional

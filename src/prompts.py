@@ -1,3 +1,15 @@
+"""Prompt templates for intent classification, chat system setup, and formatting.
+
+Includes:
+- Intent classification prompt (`get_intent_classification_prompt`)
+- Chat prompt selector (`get_chat_prompt_template`)
+- Memory summary and response formatting prompts
+
+Example:
+    prompt = get_intent_classification_prompt()
+    text = prompt.format(user_input="Calculate total", conversation_history="")
+"""
+
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, MessagesPlaceholder
 from langchain.prompts.chat import SystemMessagePromptTemplate, HumanMessagePromptTemplate
 

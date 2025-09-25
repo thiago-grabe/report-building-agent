@@ -1,3 +1,18 @@
+"""Pydantic schemas for structured inputs/outputs and session state.
+
+Defines models used across the system, such as `AnswerResponse`,
+`UserIntent`, `CalculationResponse`, and the session structures.
+
+Example:
+    from src.schemas import AnswerResponse
+    ar = AnswerResponse(
+        question="What's the total in INV-001?",
+        answer="$22,000",
+        sources=["INV-001"],
+        confidence=0.95,
+    )
+"""
+
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any, Literal
 from datetime import datetime

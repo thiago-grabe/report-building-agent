@@ -1,3 +1,37 @@
+"""LangGraph workflow nodes and routing for the Document Assistant.
+
+Defines the `AgentState` (graph state), node functions for intent
+classification and task handling, memory updates, and `create_workflow` to
+assemble and compile the StateGraph.
+
+Example:
+    from langchain_openai import ChatOpenAI
+    from src.tools import get_all_tools, ToolLogger
+    from src.retrieval import SimulatedRetriever
+    from src.agent import create_workflow
+
+    llm = ChatOpenAI(api_key="...", model="gpt-4o", temperature=0.1,
+                     base_url="https://openai.vocareum.com/v1")
+    tools = get_all_tools(SimulatedRetriever(), ToolLogger())
+    workflow = create_workflow(llm, tools)
+
+    # Invoke with a minimal initial state (see `DocumentAssistant` for
+    # production usage)
+    final_state = workflow.invoke({
+        "messages": [],
+        "user_input": "Summarize all contracts",
+        "intent": None,
+        "next_step": "classify_intent",
+        "conversation_history": [],
+        "conversation_summary": "",
+        "active_documents": [],
+        "current_response": None,
+        "tools_used": [],
+        "session_id": "demo",
+        "user_id": "demo_user",
+    })
+"""
+
 from typing import TypedDict, Annotated, List, Dict, Any, Optional, Literal
 from langgraph.graph import StateGraph, END
 from langgraph.graph.message import add_messages

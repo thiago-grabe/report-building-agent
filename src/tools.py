@@ -1,3 +1,16 @@
+"""LangChain tools for the assistant and a persistent ToolLogger.
+
+Includes:
+- Calculator tool with strict validation and safe evaluation
+- Document search/reader/statistics tools backed by the in-memory retriever
+- `ToolLogger` for per-session, auto-saved usage logs
+
+Example:
+    from src.tools import get_all_tools, ToolLogger
+    from src.retrieval import SimulatedRetriever
+    tools = get_all_tools(SimulatedRetriever(), ToolLogger())
+"""
+
 from typing import Dict, Any, List, Optional, Literal
 from langchain.tools import tool
 from pydantic import BaseModel, Field
